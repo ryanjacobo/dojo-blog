@@ -16,7 +16,7 @@
 <script>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import projectFirestore from "../firebase/config";
+import { projectFirestore, timestamp } from "../firebase/config";
 
 export default {
   setup() {
@@ -29,7 +29,7 @@ export default {
 
     const handleKeydown = () => {
       if (!tags.value.includes(tag.value) && tag.value != "") {
-        tag.value = tag.value.replace(/\s/, ""); // remove all whitespace in the input
+        tag.value = tag.value.replace(/\s/g, ""); // remove all whitespace in the input
         tags.value.push(tag.value);
       }
       tag.value = ""; //clears the field regardless whether the tag already exists or gets added to the tags array
@@ -40,9 +40,10 @@ export default {
         title: title.value,
         body: body.value,
         tags: tags.value,
+        createdAt: timestamp(),
       };
       console.log(title.value, body.value, tags.value);
-      const blog = await projectFirestore.collection("posts").add(post);
+      const res = await projectFirestore.collection("posts").add(post);
       router.push({ name: "Home" });
     };
 

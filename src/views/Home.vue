@@ -1,19 +1,20 @@
 <template>
   <div class="home">
-    <h1>Home</h1>
+    <!-- <h1>Home</h1> -->
     <div v-if="error">{{ error }}</div>
     <div v-if="posts.length" class="layout">
-      <PostList :posts="posts" v-if="showPosts" />
+      <!-- <PostList :posts="posts" v-if="showPosts" /> -->
+      <PostList :posts="posts" />
       <TagCloud :posts="posts" />
     </div>
     <!-- <div v-else>Loading...</div> -->
     <div v-else>
       <Spinner />
     </div>
-    <div class="home-buttons">
+    <!-- <div class="home-buttons">
       <button @click="showPosts = !showPosts">Toggle Posts</button>
       <button @click="posts.pop()">Delete a post</button>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -31,12 +32,11 @@ export default {
     const { posts, error, load } = getPosts();
     load();
 
-    const showPosts = ref(true);
+    // const showPosts = ref(true);
 
     return {
       posts,
       error,
-      showPosts,
     };
   },
 };

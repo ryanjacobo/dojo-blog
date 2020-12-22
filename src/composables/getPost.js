@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import projectFirestore from "../firebase/config";
+import { projectFirestore } from "../firebase/config"; // "{}" is a must
 
 const getPost = (id) => {
   const post = ref(null);
@@ -7,20 +7,20 @@ const getPost = (id) => {
 
   const load = async () => {
     try {
-      const blog = await projectFirestore
+      let res = await projectFirestore
         .collection("posts")
         .doc(id)
         .get(); // from collection('posts'), with corresponding doc(id), "get()" that element
-      console.log(blog.data());
+      console.log(res.data());
 
-      if (!blog.exists) {
+      if (!res.exists) {
         throw Error("That post does not exist.");
       }
-      post.value = /*blogs.docs.map((post) => {
+      post.value = /*res.docs.map((post) => {
           console.log(post.data());
           return*/ {
-        ...blog.data(),
-        id: post.id,
+        ...res.data(),
+        id: res.id,
       };
       console.log(post.value);
       //});
